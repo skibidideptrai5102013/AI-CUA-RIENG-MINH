@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Học Tập Thông Minh — Giải Thích Kiến Thức</title>
+    <script>
+        // Áp dụng giao diện sáng/tối ngay lập tức để tránh bị nháy màn hình
+        (function () {
+            let theme = null;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            if (!theme) theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -44,7 +54,7 @@
     </script>
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background: linear-gradient(135deg, #F0F4FF 0%, #F8FAFC 50%, #ECFDF5 100%); background-attachment: fixed; }
+        body { background: linear-gradient(135deg, #F0F4FF 0%, #F8FAFC 50%, #ECFDF5 100%); background-attachment: fixed; transition: background 0.3s, color 0.3s; }
         .gradient-main { background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%); }
         .gradient-text { background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .chat-bubble-user { border-radius: 20px 20px 6px 20px; }
@@ -54,7 +64,7 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
-        .model-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid transparent; }
+        .model-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid transparent; background: #F8FAFC; }
         .model-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1); }
         .model-card.selected { border-color: #2563EB; background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%); box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.1); }
         .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
@@ -67,6 +77,40 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+        /* ===== CHẾ ĐỘ TỐI ===== */
+        html.dark { color-scheme: dark; }
+        html.dark body { background: linear-gradient(135deg, #0B1120 0%, #0F172A 50%, #062B2A 100%); background-attachment: fixed; color: #E2E8F0; }
+        html.dark .glass { background: rgba(15, 23, 42, 0.8); border-color: rgba(51, 65, 85, 0.6); }
+        html.dark .bg-white { background-color: #1E293B; }
+        html.dark .bg-neutral-50, html.dark .bg-neutral-50\/50 { background-color: #0F172A; }
+        html.dark .bg-neutral-100 { background-color: #334155; }
+        html.dark .bg-neutral-200 { background-color: #334155; }
+        html.dark .border-white\/80, html.dark .border-white\/50 { border-color: #334155; }
+        html.dark .border-neutral-100, html.dark .border-neutral-200 { border-color: #334155; }
+        html.dark .text-neutral-800, html.dark .text-neutral-700 { color: #E2E8F0; }
+        html.dark .text-neutral-600, html.dark .text-neutral-500 { color: #94A3B8; }
+        html.dark .text-primary { color: #60A5FA; }
+        html.dark input[type="text"], html.dark input[type="password"] { background-color: #0F172A; color: #E2E8F0; border-color: #334155; }
+        html.dark input::placeholder { color: #64748B; }
+        html.dark .model-card { background: #0F172A; }
+        html.dark .model-card.selected { background: linear-gradient(135deg, #172554 0%, #2E1065 100%); border-color: #3B82F6; }
+        html.dark .radio-indicator { border-color: #475569; }
+        html.dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.3); }
+        html.dark .bg-amber-50\/80 { background-color: rgba(120, 53, 15, 0.3); border-color: rgba(180, 83, 9, 0.4); }
+        html.dark .bg-green-50\/80 { background-color: rgba(6, 78, 59, 0.35); border-color: rgba(5, 150, 105, 0.4); }
+        html.dark .text-amber-700, html.dark .text-amber-800 { color: #FCD34D; }
+        html.dark .text-green-700 { color: #6EE7B7; }
+        html.dark .bg-green-100 { background-color: rgba(6, 78, 59, 0.5); }
+        html.dark .bg-blue-100 { background-color: rgba(30, 58, 138, 0.5); }
+        html.dark .bg-green-100.text-green-700 { color: #6EE7B7; }
+        html.dark .bg-blue-100.text-blue-700 { color: #93C5FD; }
+        html.dark #settings-btn, html.dark #theme-btn { background-color: #1E293B; border-color: #334155; color: #E2E8F0; }
+        html.dark #close-modal:hover { background-color: #334155; }
+        html.dark code { background: #334155; color: #93C5FD; }
+        html.dark pre { background: #020617; border: 1px solid #334155; }
+        html.dark ::-webkit-scrollbar-thumb { background: #475569; }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: #64748B; }
     </style>
 </head>
 <body class="font-sans text-neutral-800 min-h-screen flex flex-col scroll-smooth">
@@ -82,10 +126,15 @@
                     <p class="text-xs text-neutral-500 hidden sm:block">Hiểu nhanh hơn, nhớ lâu hơn</p>
                 </div>
             </div>
-            <button id="settings-btn" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-neutral-200 hover:border-primary/50 hover:shadow-md transition-all text-sm font-medium text-neutral-700">
-                <i class="fa fa-cog text-primary"></i>
-                <span class="hidden sm:inline">Cấu Hình API</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="theme-btn" title="Chuyển giao diện Sáng / Tối" aria-label="Chuyển giao diện Sáng / Tối" class="flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-neutral-200 hover:border-primary/50 hover:shadow-md transition-all text-neutral-700">
+                    <i id="theme-icon" class="fa fa-moon-o text-primary text-lg"></i>
+                </button>
+                <button id="settings-btn" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-neutral-200 hover:border-primary/50 hover:shadow-md transition-all text-sm font-medium text-neutral-700">
+                    <i class="fa fa-cog text-primary"></i>
+                    <span class="hidden sm:inline">Cấu Hình API</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -100,7 +149,7 @@
     <div id="api-modal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" id="modal-overlay"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4 overflow-y-auto">
-            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl my-4 overflow-hidden">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl my-4 overflow-hidden relative">
                 <div class="gradient-main text-white p-6">
                     <h3 class="text-xl font-bold flex items-center gap-2">
                         <i class="fa fa-key"></i> Chọn Model & Cấu Hình API
@@ -109,6 +158,14 @@
                 </div>
 
                 <div class="p-6">
+                    <!-- Tên gợi nhớ cho AI -->
+                    <div class="mb-6">
+                        <label for="ai-name" class="block font-semibold text-neutral-800 mb-2">🏷️ Tên gợi nhớ cho AI</label>
+                        <input type="text" id="ai-name" maxlength="24" placeholder="Ví dụ: Cô Mai, Thầy Bông, Bé Bi..."
+                            class="w-full p-3.5 border-2 border-neutral-200 rounded-xl input-focus focus:border-primary outline-none transition-all text-base">
+                        <p class="text-sm text-neutral-500 mt-2">Đặt tên thân thiện cho trợ lý — AI sẽ xưng hô và hiển thị bằng tên này (tối đa 24 ký tự).</p>
+                    </div>
+
                     <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl mb-6">
                         <p class="font-semibold text-amber-800 text-sm flex items-center gap-1.5">
                             <i class="fa fa-lightbulb-o"></i> Gợi ý tốt nhất
@@ -120,7 +177,7 @@
 
                     <p class="font-semibold text-neutral-800 mb-3">📋 Chọn phiên bản AI miễn phí:</p>
                     <div class="grid gap-3 mb-6">
-                        <label class="model-card rounded-xl p-4 cursor-pointer block bg-neutral-50">
+                        <label class="model-card rounded-xl p-4 cursor-pointer block">
                             <input type="radio" name="model" value="gemini-flash-lite" class="hidden">
                             <div class="flex items-start gap-3">
                                 <div class="w-5 h-5 mt-0.5 rounded-full border-2 border-neutral-300 flex items-center justify-center flex-shrink-0 radio-indicator">
@@ -139,7 +196,7 @@
                             </div>
                         </label>
 
-                        <label class="model-card rounded-xl p-4 cursor-pointer block bg-neutral-50">
+                        <label class="model-card rounded-xl p-4 cursor-pointer block">
                             <input type="radio" name="model" value="groq-llama" class="hidden">
                             <div class="flex items-start gap-3">
                                 <div class="w-5 h-5 mt-0.5 rounded-full border-2 border-neutral-300 flex items-center justify-center flex-shrink-0 radio-indicator">
@@ -158,7 +215,7 @@
                             </div>
                         </label>
 
-                        <label class="model-card rounded-xl p-4 cursor-pointer block bg-neutral-50">
+                        <label class="model-card rounded-xl p-4 cursor-pointer block">
                             <input type="radio" name="model" value="openrouter" class="hidden">
                             <div class="flex items-start gap-3">
                                 <div class="w-5 h-5 mt-0.5 rounded-full border-2 border-neutral-300 flex items-center justify-center flex-shrink-0 radio-indicator">
@@ -174,7 +231,7 @@
                             </div>
                         </label>
 
-                        <label class="model-card rounded-xl p-4 cursor-pointer block bg-neutral-50">
+                        <label class="model-card rounded-xl p-4 cursor-pointer block">
                             <input type="radio" name="model" value="deepseek" class="hidden">
                             <div class="flex items-start gap-3">
                                 <div class="w-5 h-5 mt-0.5 rounded-full border-2 border-neutral-300 flex items-center justify-center flex-shrink-0 radio-indicator">
@@ -190,7 +247,7 @@
                             </div>
                         </label>
 
-                        <label class="model-card rounded-xl p-4 cursor-pointer block bg-neutral-50 opacity-75">
+                        <label class="model-card rounded-xl p-4 cursor-pointer block opacity-75">
                             <input type="radio" name="model" value="openai" class="hidden">
                             <div class="flex items-start gap-3">
                                 <div class="w-5 h-5 mt-0.5 rounded-full border-2 border-neutral-300 flex items-center justify-center flex-shrink-0 radio-indicator">
@@ -241,9 +298,9 @@
                             <i class="fa fa-robot"></i>
                         </div>
                         <div class="bg-white p-4 md:p-5 chat-bubble-ai max-w-[88%] shadow-sm border border-neutral-100">
-                            <p class="font-bold text-primary mb-2">👋 Xin chào! Tôi là trợ lý AI</p>
+                            <p class="font-bold text-primary mb-2">👋 Xin chào! Tôi là <span class="ai-name-label">AI Trợ Giúp</span></p>
                             <p class="text-neutral-700 mb-2">Tôi có thể giải thích mọi kiến thức cho bạn một cách dễ hiểu nhất.</p>
-                            <p class="text-neutral-600 mb-3">Để bắt đầu, nhấn nút <strong class="text-primary">"Cấu Hình API"</strong> ở góc trên → chọn một model miễn phí → lấy key theo liên kết hướng dẫn → dán vào ô và Lưu nhé!</p>
+                            <p class="text-neutral-600 mb-3">Để bắt đầu, nhấn nút <strong class="text-primary">"Cấu Hình API"</strong> ở góc trên → đặt tên gợi nhớ cho tôi, chọn một model miễn phí → lấy key theo liên kết hướng dẫn → dán vào ô và Lưu nhé!</p>
                             <div class="bg-neutral-50 rounded-lg p-3 text-sm text-neutral-600 border border-neutral-100">
                                 <p class="font-medium text-neutral-700 mb-1">💡 Ví dụ câu hỏi:</p>
                                 <ul class="space-y-1 text-neutral-500">
@@ -313,9 +370,19 @@
             }
         };
 
+        const DEFAULT_AI_NAME = 'AI Trợ Giúp';
+
+        function storageGet(key, fallback) {
+            try { const v = localStorage.getItem(key); return v === null ? fallback : v; } catch (e) { return fallback; }
+        }
+        function storageSet(key, value) {
+            try { localStorage.setItem(key, value); } catch (e) {}
+        }
+
         let CONFIG = {
-            selectedModel: localStorage.getItem('selected_model') || 'gemini-flash-lite',
-            apiKey: localStorage.getItem('api_key') || '',
+            selectedModel: storageGet('selected_model', 'gemini-flash-lite'),
+            apiKey: storageGet('api_key', ''),
+            aiName: storageGet('ai_name', DEFAULT_AI_NAME) || DEFAULT_AI_NAME,
             isConfigured: false
         };
 
@@ -325,6 +392,7 @@
         const closeModal = document.getElementById('close-modal');
         const saveBtn = document.getElementById('save-api');
         const apiKeyInput = document.getElementById('api-key');
+        const aiNameInput = document.getElementById('ai-name');
         const statusBar = document.getElementById('status-bar');
         const statusText = document.getElementById('status-text');
         const sendBtn = document.getElementById('send-btn');
@@ -333,8 +401,34 @@
         const chatMessages = document.getElementById('chat-messages');
         const keyHint = document.getElementById('key-hint');
         const modelRadios = document.querySelectorAll('input[name="model"]');
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = document.getElementById('theme-icon');
+
+        // ===== GIAO DIỆN SÁNG / TỐI =====
+        function applyTheme(theme) {
+            const isDark = theme === 'dark';
+            document.documentElement.classList.toggle('dark', isDark);
+            themeIcon.className = isDark ? 'fa fa-sun-o text-warning text-lg' : 'fa fa-moon-o text-primary text-lg';
+            themeBtn.title = isDark ? 'Chuyển sang giao diện Sáng' : 'Chuyển sang giao diện Tối';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+            applyTheme(next);
+            storageSet('theme', next);
+        });
+
+        // ===== TÊN GỢI NHỚ CHO AI =====
+        function getAiName() {
+            return (CONFIG.aiName || '').trim() || DEFAULT_AI_NAME;
+        }
+
+        function refreshAiNameLabels() {
+            document.querySelectorAll('.ai-name-label').forEach(el => { el.textContent = getAiName(); });
+        }
 
         function init() {
+            applyTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             modelRadios.forEach(radio => {
                 radio.checked = radio.value === CONFIG.selectedModel;
                 updateModelCardStyle(radio);
@@ -344,6 +438,8 @@
                 });
             });
             apiKeyInput.value = CONFIG.apiKey;
+            aiNameInput.value = CONFIG.aiName === DEFAULT_AI_NAME ? '' : CONFIG.aiName;
+            refreshAiNameLabels();
             updateKeyHint();
             checkConfigured();
             updateStatus();
@@ -352,17 +448,8 @@
         function updateModelCardStyle(radio) {
             const label = radio.closest('label');
             const dot = label.querySelector('.radio-indicator span');
-            if (radio.checked) {
-                label.classList.add('selected');
-                label.style.borderColor = '#2563EB';
-                label.style.backgroundColor = '#EFF6FF';
-                if (dot) dot.style.transform = 'scale(1)';
-            } else {
-                label.classList.remove('selected');
-                label.style.borderColor = 'transparent';
-                label.style.backgroundColor = '#F8FAFC';
-                if (dot) dot.style.transform = 'scale(0)';
-            }
+            label.classList.toggle('selected', radio.checked);
+            if (dot) dot.style.transform = radio.checked ? 'scale(1)' : 'scale(0)';
         }
 
         function updateKeyHint() {
@@ -379,7 +466,7 @@
         function updateStatus() {
             if (CONFIG.isConfigured) {
                 const modelInfo = MODELS[CONFIG.selectedModel];
-                statusText.innerHTML = `<i class="fa fa-check-circle mr-1.5"></i> Đã kết nối: <strong>${modelInfo.name}</strong> — Sẵn sàng trả lời!`;
+                statusText.innerHTML = `<i class="fa fa-check-circle mr-1.5"></i> Đã kết nối: <strong>${escapeHtml(getAiName())}</strong> (${modelInfo.name}) — Sẵn sàng trả lời!`;
                 statusBar.className = 'border-b py-2.5 px-4 text-center text-sm transition-all duration-300 bg-green-50/80 border-green-100';
                 statusText.className = 'text-green-700 font-medium';
                 sendBtn.disabled = false;
@@ -405,10 +492,13 @@
             if (!key) { alert('Vui lòng nhập API Key!'); return; }
             CONFIG.selectedModel = selectedRadio.value;
             CONFIG.apiKey = key;
-            localStorage.setItem('selected_model', CONFIG.selectedModel);
-            localStorage.setItem('api_key', CONFIG.apiKey);
+            CONFIG.aiName = aiNameInput.value.trim() || DEFAULT_AI_NAME;
+            storageSet('selected_model', CONFIG.selectedModel);
+            storageSet('api_key', CONFIG.apiKey);
+            storageSet('ai_name', CONFIG.aiName);
             checkConfigured();
             updateStatus();
+            refreshAiNameLabels();
             closeModalFunc();
             const notification = document.createElement('div');
             notification.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2';
@@ -437,7 +527,7 @@
 
         async function callAI(question) {
             const modelInfo = MODELS[CONFIG.selectedModel];
-            const systemPrompt = `Bạn là trợ lý AI hỗ trợ học tập tuyệt vời, thân thiện, dễ gần. Nhiệm vụ:
+            const systemPrompt = `Bạn là trợ lý AI hỗ trợ học tập tuyệt vời, thân thiện, dễ gần. Người dùng gọi bạn bằng cái tên "${getAiName()}" — hãy tự xưng bằng tên này khi phù hợp (ví dụ khi chào hỏi hoặc giới thiệu bản thân). Nhiệm vụ:
 - Giải thích kiến thức đơn giản, rõ ràng, phù hợp học sinh-sinh viên Việt Nam
 - Dùng ví dụ cụ thể, dễ liên hệ
 - Sử dụng cấu trúc rõ ràng
@@ -489,7 +579,7 @@
             }
         }
 
-        // === HÀM XỬ LÝ HIỂN THỊ ĐÃ SỬA ===
+        // === HÀM XỬ LÝ HIỂN THỊ ===
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -511,7 +601,7 @@
             // Bước 2: Escape toàn bộ nội dung còn lại
             let result = escapeHtml(protectedText);
 
-            // Bước 3: Áp dụng định dạng **in đậm** — KHÔNG ảnh hưởng đến ký tự *, $, / riêng lẻ
+            // Bước 3: Áp dụng định dạng **in đậm**
             result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
             // Bước 4: Khôi phục khối mã
@@ -552,7 +642,7 @@
                         <i class="fa fa-robot"></i>
                     </div>
                     <div class="bg-white p-4 md:p-5 chat-bubble-ai max-w-[88%] shadow-sm border border-neutral-100">
-                        <p class="font-bold text-primary mb-2">AI Trợ Giúp</p>
+                        <p class="font-bold text-primary mb-2">${escapeHtml(getAiName())}</p>
                         <div class="text-neutral-700">${formatContent(content)}</div>
                     </div>
                 `;
@@ -571,7 +661,7 @@
                     <i class="fa fa-robot"></i>
                 </div>
                 <div class="bg-white p-4 md:p-5 chat-bubble-ai shadow-sm border border-neutral-100">
-                    <p class="font-bold text-primary mb-2">AI Đang suy nghĩ...</p>
+                    <p class="font-bold text-primary mb-2">${escapeHtml(getAiName())} đang suy nghĩ...</p>
                     <div class="flex gap-1.5 items-center">
                         <span class="typing-dot w-2.5 h-2.5 bg-neutral-400 rounded-full" style="animation-delay:0s"></span>
                         <span class="typing-dot w-2.5 h-2.5 bg-neutral-400 rounded-full" style="animation-delay:0.2s"></span>
